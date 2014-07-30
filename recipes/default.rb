@@ -46,6 +46,8 @@ service "tomcat" do
     supports :restart => true, :reload => true, :status => true
   end
   action [:enable, :start]
+  retries 4
+  retry_delay 30
 end
 
 case node["platform"]
