@@ -8,7 +8,7 @@ action :configure do
    :max_threads, :ssl_max_threads, :ssl_cert_file, :ssl_key_file,
    :ssl_chain_files, :keystore_file, :keystore_type, :truststore_file,
    :truststore_type, :certificate_dn, :loglevel, :tomcat_auth, :client_auth,
-   :user, :group, :tmp_dir, :lib_dir, :endorsed_dir].each do |attr|
+   :user, :group, :tmp_dir, :lib_dir, :endorsed_dir, :server_xml_cookbook, :defaults_cookbook].each do |attr|
     unless new_resource.instance_variable_get("@#{attr}")
       new_resource.instance_variable_set("@#{attr}", node['tomcat'][attr])
     end
@@ -122,6 +122,7 @@ action :configure do
   when 'rhel', 'fedora'
     template "/etc/sysconfig/#{instance}" do
       source 'sysconfig_tomcat6.erb'
+      cookbook new_resource.defaults_cookbook
       variables(
         user: new_resource.user,
         home: new_resource.home,
@@ -140,6 +141,7 @@ action :configure do
   when 'suse'
     template '/etc/tomcat/tomcat.conf' do
       source 'sysconfig_tomcat7.erb'
+      cookbook new_resource.defaults_cookbook
       variables(
         user: new_resource.user,
         home: new_resource.home,
@@ -167,6 +169,7 @@ action :configure do
   else
     template "/etc/default/#{instance}" do
       source 'default_tomcat6.erb'
+      cookbook new_resource.defaults_cookbook
       variables(
         user: new_resource.user,
         group: new_resource.group,
@@ -188,6 +191,7 @@ action :configure do
 
   template "#{new_resource.config_dir}/server.xml" do
     source 'server.xml.erb'
+    cookbook new_resource.server_xml_cookbook
     variables(
       port: new_resource.port,
       proxy_port: new_resource.proxy_port,

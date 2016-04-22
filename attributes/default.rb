@@ -60,6 +60,10 @@ default['tomcat']['packages'] = ["tomcat#{node['tomcat']['base_version']}"]
 default['tomcat']['deploy_manager_packages'] = ["tomcat#{node['tomcat']['base_version']}-admin"]
 default['tomcat']['ajp_packetsize'] = '8192'
 default['tomcat']['uriencoding'] = 'UTF-8'
+
+default['tomcat']['server_xml_cookbook'] = 'tomcat'
+default['tomcat']['defaults_cookbook'] = 'tomcat'
+
 case node['platform_family']
 
 when 'rhel', 'fedora'

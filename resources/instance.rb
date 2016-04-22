@@ -94,3 +94,7 @@ attribute :lib_dir,
   kind_of: String
 attribute :endorsed_dir,
   kind_of: String
+attribute :server_xml_cookbook,
+  kind_of: String
+attribute :defaults_cookbook,
+  kind_of: String
