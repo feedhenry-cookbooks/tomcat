@@ -83,6 +83,8 @@ def create_service(instance)
 end
 
 if node['tomcat']['run_base_instance']
+  instance = node['tomcat']['base_instance']
+  create_service(instance)
   tomcat_instance 'base' do
     port node['tomcat']['port']
     proxy_port node['tomcat']['proxy_port']
@@ -95,8 +97,6 @@ if node['tomcat']['run_base_instance']
     ajp_redirect_port node['tomcat']['ajp_redirect_port']
     shutdown_port node['tomcat']['shutdown_port']
   end
-  instance = node['tomcat']['base_instance']
-  create_service(instance)
 end
 
 node['tomcat']['instances'].each do |name, attrs|
